@@ -6,6 +6,7 @@
     justify-content: center;
     align-items: center;
     margin: 15px;
+    //background-color: darkgray;
 }
 .calculator{
     height: 512px;
@@ -18,21 +19,13 @@
 }
 .display{
     //border: 1px solid royalblue;
-    height: 15%;
-    color: white;
-    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 45px;
-    font-weight:lighter;
-    text-align: right;
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    padding-right: 10px;
+    height: 20%;
+    padding: 10px;
 }
 
 .keys{
     //border: 1px solid purple;
-    height: 80%;
+    height: 75%;
     color: white;   
     text-align: center; 
 }
