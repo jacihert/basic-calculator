@@ -1,0 +1,49 @@
+@use "_base.scss" as *;
+
+// Layout for containers
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px;
+}
+.calculator{
+    height: 512px;
+    width: 320px;
+    justify-content: center;
+    border: 8px solid whitesmoke;
+    border-radius: 5px;  
+    justify-content: center;
+    background-color: black;
+}
+.display{
+    //border: 1px solid royalblue;
+    height: 15%;
+    color: white;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 45px;
+    font-weight:lighter;
+    text-align: right;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding-right: 10px;
+}
+
+.keys{
+    //border: 1px solid purple;
+    height: 80%;
+    color: white;   
+    text-align: center; 
+}
+
+// @media only screen and (max-width: 768px) {
+//     /* For mobile phones: */
+    
+//       width: 100%;
+    
+//   }
+
+
+
+

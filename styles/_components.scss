@@ -1,0 +1,108 @@
+
+// Components
+// Nested Components
+
+.keys{
+    display: grid;
+    grid-template-areas:  
+        "otherOper otherOper otherOper  mathOper"
+        "numbers   numbers   numbers    mathOper"
+        "numbers   numbers   numbers    mathOper"
+        "numbers   numbers   numbers    mathOper"
+        "lastRow   lastRow   lastRow    mathOper" ;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr ;
+    justify-content: stretch; 
+    padding-left: 10px;
+    
+        &__otherOperators{
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            grid-area: otherOper;
+            color: white;
+            //border: 1px solid red;
+            text-align: center;   
+            align-items: center;    
+        }
+
+        &__number{
+            grid-area: numbers;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            align-items: center; 
+            //border: 1px solid red;
+        }
+
+        &__lastRow{
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-areas:  
+                "zero    zero   decimal" ;
+            grid-area: lastRow;
+            margin-top: 8px;
+            //border: 1px solid red;
+        }
+          
+        &__simpleOperators{
+            grid-area: mathOper;
+            color: white;
+            display: grid;
+            align-items: center; 
+            //border: 1px solid red;
+        }
+        
+        &__decimalPoint{
+            grid-area: decimal;
+            //border: 1px solid red;
+        }
+
+        &__zero{
+            grid-area: zero;
+            border: 1px solid red;
+            text-align: left;
+            display: flex;
+        }
+}
+
+.button {
+    background-color:rgb(54, 53, 53);
+    border:1px solid rgb(54, 53, 53);    
+    text-align: center;
+    font-size: 25px;
+    color: rgb(255, 255, 255);
+    border-radius:50%;
+    height: 65px;
+    width: 65px;
+    box-shadow: 0px 1.5px rgb(79, 79, 79);
+    
+    &:hover{
+        opacity: 0.5;
+       }
+        //display: inline-block;
+        // -moz-border-radius:50%;
+        // -webkit-border-radius:50%;
+
+    &--orange {    
+        background-color: orange;
+    } 
+
+    &--white {    
+        background-color: rgb(187, 185, 185);
+        color: black;     
+    }
+
+    &--oval {
+        border-radius: 70px;
+        height: 65px;
+        width: 90%;
+        text-align: left;
+        padding-left: 30px ;
+    }
+}
+
+
+
+// BEM
+// block
+// block__element
+// block__element--modifier
+// block--modifier
