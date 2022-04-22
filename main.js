@@ -6,11 +6,13 @@ let calculationDisplay = "";
 let clickedButtonValue = "";
 let isDecimal = false;
 let isNegative = false;
+let isEqual = false;
 //console.log(allButtons);
 let value1 = 0;
 let value2 = 0;
 let operator = '';
 let intNumberDisplay = 0;
+let temp = '0'
 
 
 for (let i = 0; i < allButtons.length; i++) {
@@ -18,7 +20,7 @@ for (let i = 0; i < allButtons.length; i++) {
 
   clickedButton.onclick = function (_event) {
     clickedButtonValue = this.innerHTML;
-    //console.log(clickedButtonValue);
+  
 
     switch (clickedButtonValue) { 
     // ----------CANCEL------------------------
@@ -46,6 +48,11 @@ for (let i = 0; i < allButtons.length; i++) {
     // ----------PERCENTAGE---------------------
       case "%": // TO DO
         console.log("It is a %");
+        operator = this.innerHTML;
+        value1 = parseInt(numberDisplay);
+        calculationDisplay = numberDisplay + operator;
+        numberDisplay = "";
+
         break;
     //------------ ARITHMETIC OPERATIONS ------- ' + ' , ' - ' ,  ' * ' , ' / ' 
       case "+":
@@ -53,27 +60,23 @@ for (let i = 0; i < allButtons.length; i++) {
       case "x":
       case "÷":
         operator = this.innerHTML;
-        value1 = parseInt(numberDisplay);
+        value1 = parseFloat(numberDisplay);
         calculationDisplay = numberDisplay + operator;
         numberDisplay = "";
         break;
     //------------ EQUAL TO --------------------- '  =  '
       case "=":
         console.log("It is a =");
-        //move innerhtml into a variable, convert it to a number & call function to calculate
-          if (value1 != 0) {
-          value2 = parseInt(numberDisplay);
-          calculateFunction (value1, value2, operator);
-          operator = '';
+        if (value1 != 0) {
+        value2 = parseFloat(numberDisplay);
+        calculateFunction (value1, value2, operator);
+        isEqual = false;
         }
         else {
           calculationDisplay = numberDisplay + '='
-          operator = '='
-         
-          //numberDisplay = 0
+          isEqual = true
+        }   
 
-        }
-                    
         break;
     //------------ DECIMAL POINT ------------------- '  .  '
       case ".": 
@@ -88,15 +91,28 @@ for (let i = 0; i < allButtons.length; i++) {
     //------------- NUMBERS ' 0 - 9 ' --------------- 
 
       default:
-
-          numberDisplay += this.innerHTML;
-          numberDisplay = parseInt(numberDisplay);
+          if (isEqual && value1 != 0) {
+            numberDisplay = this.innerHTML;
+            isEqual = ''
+          }
+          else {
+            numberDisplay += this.innerHTML;
+          }
+          console.log(numberDisplay)
+          temp = parseFloat(numberDisplay)
+          console.log(temp)
+          numberDisplay = temp
+          //numberDisplay = parseInt(numberDisplay);
+          //console.log(numberDisplay)
 
         break;
     }
 
 
 
+// fix a length for display
+// When entering value, call the function to check if the limit is reached , is yes stop recieving input
+// when rounding off , look for the length and round off the digits to allow max decimal to fit the allowed length
 
 
 
@@ -110,22 +126,34 @@ for (let i = 0; i < allButtons.length; i++) {
       //------------------------------- 
 
       const calculateFunction = (value1, value2, operator) => {
-        calculationDisplay = value1 + operator + value2;
+        calculationDisplay = value1 + operator + value2 + '=';
         switch (operator) {
           case '+':
             numberDisplay = value1 + value2;
+            // function to round off
+            //Number((numberDisplay).toFixed(5))
             break;
           case '-':
             numberDisplay = value1 - value2;
+            //Number((numberDisplay).toFixed(5))
             break;
           case 'x':
             numberDisplay = value1 * value2;
+            numberDisplay = numberDisplay.toFixed(8)
             break;
           case '÷':
             numberDisplay = value1 / value2;
+            math.round((numberDisplay),2)
+            break;  
+          case '%':
+            calculationDisplay = value1 + operator + '=';
+            numberDisplay = value1 /100;
+            //Number((numberDisplay).toFixed(5))
             break;    
         }
         operator = ''
+        value1 = 0
+        value2 = 0
       }
 
 }

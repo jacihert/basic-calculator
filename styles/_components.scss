@@ -7,7 +7,6 @@
     flex-direction: column;
     color: white;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    //font-size: 35px;
     font-weight:lighter;
     justify-content: center;
     
@@ -16,7 +15,6 @@
             text-align: right;
             font-size: 28px;
             align-items: center;
-            //border: 1px solid blue;
             color:grey ;
             background-color:wheat;
         }
@@ -25,7 +23,6 @@
             
             text-align: right;
             font-size: 55px;
-            //border: 1px solid red;
             color: wheat;
             background-color:gray;
         }
@@ -49,7 +46,6 @@
             grid-template-columns: 1fr 1fr 1fr;
             grid-area: otherOper;
             color: white;
-            //border: 1px solid red;
             text-align: center;   
             align-items: center;    
         }
@@ -59,7 +55,6 @@
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             align-items: center; 
-            //border: 1px solid red;
         }
 
         &__lastRow{
@@ -69,7 +64,6 @@
                 "zero    zero   decimal" ;
             grid-area: lastRow;
             margin-top: 8px;
-            //border: 1px solid red;
         }
           
         &__simpleOperators{
@@ -77,12 +71,10 @@
             color: white;
             display: grid;
             align-items: center; 
-            //border: 1px solid red;
         }
         
         &__decimalPoint{
             grid-area: decimal;
-            //border: 1px solid red;
         }
 
         &__zero{
@@ -107,9 +99,6 @@
     &:hover{
         opacity: 0.5;
        }
-        //display: inline-block;
-        // -moz-border-radius:50%;
-        // -webkit-border-radius:50%;
 
     &--orange {    
         background-color: orange;
@@ -128,11 +117,3 @@
         padding-left: 30px ;
     }
 }
-
-
-
-// BEM
-// block
-// block__element
-// block__element--modifier
-// block--modifier

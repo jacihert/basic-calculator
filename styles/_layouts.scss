@@ -6,19 +6,17 @@
     justify-content: center;
     align-items: center;
     margin: 15px;
-    //background-color: darkgray;
 }
 .calculator{
     height: 512px;
     width: 320px;
     justify-content: center;
-    border: 8px solid whitesmoke;
-    border-radius: 5px;  
+    border: 8px solid darkgray;
+    border-radius: 15px;  
     justify-content: center;
     background-color: black;
 }
 .display{
-    //border: 1px solid royalblue;
     height: 20%;
     padding: 10px;
 }
@@ -30,12 +28,7 @@
     text-align: center; 
 }
 
-// @media only screen and (max-width: 768px) {
-//     /* For mobile phones: */
-    
-//       width: 100%;
-    
-//   }
+
 
 
 

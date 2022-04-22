@@ -14,8 +14,8 @@
   height: 512px;
   width: 320px;
   justify-content: center;
-  border: 8px solid whitesmoke;
-  border-radius: 5px;
+  border: 8px solid darkgray;
+  border-radius: 15px;
   justify-content: center;
   background-color: black;
 }
