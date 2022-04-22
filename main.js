@@ -7,12 +7,16 @@ let clickedButtonValue = "";
 let isDecimal = false;
 let isNegative = false;
 let isEqual = false;
-//console.log(allButtons);
 let value1 = 0;
 let value2 = 0;
 let operator = '';
 let intNumberDisplay = 0;
 let temp = '0'
+let inputLength = 0
+let exceedsAllowedInputLength = ''
+let numberDisplaystring = ''
+let position = 0
+let calculatedValue = 0
 
 
 for (let i = 0; i < allButtons.length; i++) {
@@ -25,18 +29,19 @@ for (let i = 0; i < allButtons.length; i++) {
     switch (clickedButtonValue) { 
     // ----------CANCEL------------------------
       case "C":  
-        //console.log("It is a c");
+
         isDecimal = false;
         isNegative = false;
+        exceedsAllowedInputLength = false
         numberDisplay = "0";
         calculationDisplay = "";
         value1 = 0;
         value2 = 0;
-        operator = '';          // clear all: ip, op, flags   
+        operator = '';   
+        exceedsAllowedInputLength = ''       // clear all: ip, op, flags   
         break;
     // ----------POSITIVE NEGATIVE------------- ' +/- '
       case "+/-": 
-        //console.log("It is a +-");         // initialise flag &  // toggle flag
         if (isNegative === false) {
           numberDisplay = '-' + numberDisplay;
           isNegative = true;
@@ -46,8 +51,7 @@ for (let i = 0; i < allButtons.length; i++) {
         }
         break;
     // ----------PERCENTAGE---------------------
-      case "%": // TO DO
-        console.log("It is a %");
+      case "%": 
         operator = this.innerHTML;
         value1 = parseInt(numberDisplay);
         calculationDisplay = numberDisplay + operator;
@@ -59,6 +63,7 @@ for (let i = 0; i < allButtons.length; i++) {
       case "-":
       case "x":
       case "÷":
+        isDecimal = false;
         operator = this.innerHTML;
         value1 = parseFloat(numberDisplay);
         calculationDisplay = numberDisplay + operator;
@@ -66,8 +71,7 @@ for (let i = 0; i < allButtons.length; i++) {
         break;
     //------------ EQUAL TO --------------------- '  =  '
       case "=":
-        console.log("It is a =");
-        if (value1 != 0) {
+        if (value1 !== 0) {
         value2 = parseFloat(numberDisplay);
         calculateFunction (value1, value2, operator);
         isEqual = false;
@@ -80,7 +84,6 @@ for (let i = 0; i < allButtons.length; i++) {
         break;
     //------------ DECIMAL POINT ------------------- '  .  '
       case ".": 
-        console.log("It is a ."); //initialise flag, set flag, if flag on : ignore
         if (isDecimal === false) {
           if(numberDisplay === ''){numberDisplay = 0} // prefix 0 if there is no number before the decimal point
           numberDisplay +=  this.innerHTML;
@@ -91,28 +94,25 @@ for (let i = 0; i < allButtons.length; i++) {
     //------------- NUMBERS ' 0 - 9 ' --------------- 
 
       default:
-          if (isEqual && value1 != 0) {
+        numberDisplaystring = numberDisplay.toString();
+        limitInputLength(numberDisplaystring)
+        if (exceedsAllowedInputLength === 'no') {
+          if (isEqual === 'true' && value1 !== 0) { 
             numberDisplay = this.innerHTML;
-            isEqual = ''
+            isEqual = 'false';
           }
           else {
             numberDisplay += this.innerHTML;
           }
-          console.log(numberDisplay)
+          numberDisplaystring = numberDisplay;
           temp = parseFloat(numberDisplay)
-          console.log(temp)
           numberDisplay = temp
-          //numberDisplay = parseInt(numberDisplay);
-          //console.log(numberDisplay)
-
+        }      
         break;
     }
 
 
 
-// fix a length for display
-// When entering value, call the function to check if the limit is reached , is yes stop recieving input
-// when rounding off , look for the length and round off the digits to allow max decimal to fit the allowed length
 
 
 
@@ -121,8 +121,46 @@ for (let i = 0; i < allButtons.length; i++) {
     document.getElementById("calculation").innerHTML = calculationDisplay;
 
   };
+
+      //---------------------------------------------- 
+      //   function : limit input length : 10 
+      //---------------------------------------------- 
+
+      const limitInputLength = (numberDisplaystring) => {
+        inputLength = 0;
+        exceedsAllowedInputLength = ''
+        inputLength = numberDisplaystring.length;
+        if (inputLength > 10) { 
+          exceedsAllowedInputLength = 'yes';
+          return exceedsAllowedInputLength; 
+        }
+        else{
+          exceedsAllowedInputLength='no';
+        }
+      }
+
+      //---------------------------------------------- 
+      //   function : round off : length 10 
+      //---------------------------------------------- 
+
+      const rounOffFunction = (calculatedValueRecieved) => {
+        calculatedValue = calculatedValueRecieved.toString()
+        lengthOfCalculatedValue = calculatedValue.length;
+        position = calculatedValue.split(".")[0].length;
+        if (position !== -1 ) {
+          let wholePart = calculatedValue.slice(0, position).length
+          let fractionalPart = calculatedValue.slice(position+1).length;
+          let finalResult1 = parseFloat(calculatedValue).toFixed(2);
+          if (lengthOfCalculatedValue > 10 ) {
+            let x = 10 - lengthOfCalculatedValue - wholePart;
+            let finalResult2 = parseFloat(calculatedValue).toFixed(x);    
+          }
+          return;      
+         }
+      }
+
       //------------------------------- 
-      //   function to calculate 
+      //   function : calculate 
       //------------------------------- 
 
       const calculateFunction = (value1, value2, operator) => {
@@ -130,30 +168,25 @@ for (let i = 0; i < allButtons.length; i++) {
         switch (operator) {
           case '+':
             numberDisplay = value1 + value2;
-            // function to round off
-            //Number((numberDisplay).toFixed(5))
             break;
           case '-':
-            numberDisplay = value1 - value2;
-            //Number((numberDisplay).toFixed(5))
+            numberDisplay = value1 - value2;          
             break;
           case 'x':
-            numberDisplay = value1 * value2;
-            numberDisplay = numberDisplay.toFixed(8)
+            numberDisplay = value1 * value2;            
             break;
           case '÷':
-            numberDisplay = value1 / value2;
-            math.round((numberDisplay),2)
-            break;  
+            numberDisplay = value1 / value2;           
+            break; 
           case '%':
             calculationDisplay = value1 + operator + '=';
             numberDisplay = value1 /100;
-            //Number((numberDisplay).toFixed(5))
-            break;    
+            break; 
         }
-        operator = ''
-        value1 = 0
-        value2 = 0
+        rounOffFunction(numberDisplay); // function to round off
+        operator = '';
+        value1 = 0;
+        value2 = 0;
       }
 
 }
