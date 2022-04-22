@@ -10,13 +10,10 @@ let isEqual = false;
 let value1 = 0;
 let value2 = 0;
 let operator = '';
-let intNumberDisplay = 0;
-let temp = '0'
-let inputLength = 0
-let exceedsAllowedInputLength = ''
+let exceedsAllowedInputLength = false
 let numberDisplaystring = ''
 let position = 0
-let calculatedValue = 0
+let calculatedValue = ''
 
 
 for (let i = 0; i < allButtons.length; i++) {
@@ -24,13 +21,11 @@ for (let i = 0; i < allButtons.length; i++) {
 
   clickedButton.onclick = function (_event) {
     clickedButtonValue = this.innerHTML;
-  
-
     switch (clickedButtonValue) { 
     // ----------CANCEL------------------------
       case "C":  
-
         isDecimal = false;
+        isEqual = false;
         isNegative = false;
         exceedsAllowedInputLength = false
         numberDisplay = "0";
@@ -42,22 +37,25 @@ for (let i = 0; i < allButtons.length; i++) {
         break;
     // ----------POSITIVE NEGATIVE------------- ' +/- '
       case "+/-": 
-        if (isNegative === false) {
-          numberDisplay = '-' + numberDisplay;
-          isNegative = true;
-        } else {
-          numberDisplay = numberDisplay.slice(1);
-          isNegative = false;
-        }
+        if (numberDisplay === '' || numberDisplay === 0 || numberDisplay === "0" ) {
+        }else if (isNegative === false) {
+                  numberDisplay = '-' + numberDisplay;
+                  isNegative = true;
+                } else {
+                  numberDisplay = numberDisplay.slice(1);
+                  isNegative = false;
+                }
         break;
     // ----------PERCENTAGE---------------------
       case "%": 
-        operator = this.innerHTML;
-        value1 = parseInt(numberDisplay);
-        calculationDisplay = numberDisplay + operator;
-        numberDisplay = "";
-
-        break;
+        if (numberDisplay === '' || numberDisplay === 0 || numberDisplay === "0" ) { 
+        }else {
+                operator = this.innerHTML;
+                value1 = parseFloat(numberDisplay);
+                calculationDisplay = numberDisplay + operator;
+                numberDisplay = "";
+              }
+          break;
     //------------ ARITHMETIC OPERATIONS ------- ' + ' , ' - ' ,  ' * ' , ' / ' 
       case "+":
       case "-":
@@ -71,42 +69,38 @@ for (let i = 0; i < allButtons.length; i++) {
         break;
     //------------ EQUAL TO --------------------- '  =  '
       case "=":
-        if (value1 !== 0) {
+        isEqual = true
+        if (operator !== '') {
         value2 = parseFloat(numberDisplay);
         calculateFunction (value1, value2, operator);
-        isEqual = false;
         }
         else {
           calculationDisplay = numberDisplay + '='
-          isEqual = true
         }   
-
         break;
-    //------------ DECIMAL POINT ------------------- '  .  '
+    //------------ DECIMAL POINT ----------------- '  .  '
       case ".": 
         if (isDecimal === false) {
           if(numberDisplay === ''){numberDisplay = 0} // prefix 0 if there is no number before the decimal point
           numberDisplay +=  this.innerHTML;
-            isDecimal = true;
+          isDecimal = true;
         }   
         break;
 
-    //------------- NUMBERS ' 0 - 9 ' --------------- 
+    //------------- NUMBERS ---------------------' 0 - 9 '
 
       default:
         numberDisplaystring = numberDisplay.toString();
         limitInputLength(numberDisplaystring)
-        if (exceedsAllowedInputLength === 'no') {
-          if (isEqual === 'true' && value1 !== 0) { 
+        if (exceedsAllowedInputLength === false) {
+            if (isEqual === true || numberDisplay === '0') {  
             numberDisplay = this.innerHTML;
-            isEqual = 'false';
+            isEqual = false;    
           }
           else {
             numberDisplay += this.innerHTML;
           }
           numberDisplaystring = numberDisplay;
-          temp = parseFloat(numberDisplay)
-          numberDisplay = temp
         }      
         break;
     }
@@ -127,15 +121,9 @@ for (let i = 0; i < allButtons.length; i++) {
       //---------------------------------------------- 
 
       const limitInputLength = (numberDisplaystring) => {
-        inputLength = 0;
-        exceedsAllowedInputLength = ''
-        inputLength = numberDisplaystring.length;
-        if (inputLength > 10) { 
-          exceedsAllowedInputLength = 'yes';
-          return exceedsAllowedInputLength; 
-        }
-        else{
-          exceedsAllowedInputLength='no';
+        exceedsAllowedInputLength = false
+        if (numberDisplaystring.length > 10) { 
+          return exceedsAllowedInputLength = true; 
         }
       }
 
@@ -144,19 +132,21 @@ for (let i = 0; i < allButtons.length; i++) {
       //---------------------------------------------- 
 
       const rounOffFunction = (calculatedValueRecieved) => {
-        calculatedValue = calculatedValueRecieved.toString()
+        calculatedValue = calculatedValueRecieved.toString();
         lengthOfCalculatedValue = calculatedValue.length;
         position = calculatedValue.split(".")[0].length;
-        if (position !== -1 ) {
-          let wholePart = calculatedValue.slice(0, position).length
-          let fractionalPart = calculatedValue.slice(position+1).length;
-          let finalResult1 = parseFloat(calculatedValue).toFixed(2);
-          if (lengthOfCalculatedValue > 10 ) {
-            let x = 10 - lengthOfCalculatedValue - wholePart;
-            let finalResult2 = parseFloat(calculatedValue).toFixed(x);    
+        if (lengthOfCalculatedValue > 10 ) {
+          if (position <= 10) {
+            let wholePart = calculatedValue.slice(0, position).length;
+            let fractionalPart = calculatedValue.slice(position+1).length;
+              fractionalPartLength = 10 - 1 - wholePart ;
+              calculatedValue = parseFloat(calculatedValue).toFixed(fractionalPartLength);    
+              return calculatedValue; 
+          } else {
+            return calculatedValue = '      ...';   // => the output is too big to display)
           }
-          return;      
-         }
+        }
+        
       }
 
       //------------------------------- 
@@ -184,6 +174,7 @@ for (let i = 0; i < allButtons.length; i++) {
             break; 
         }
         rounOffFunction(numberDisplay); // function to round off
+        numberDisplay = calculatedValue;
         operator = '';
         value1 = 0;
         value2 = 0;
