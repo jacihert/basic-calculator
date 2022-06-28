@@ -1,4 +1,4 @@
-# basic-calculator 
+#Calculator 
 @built using javascript: [Click here to check it out](https://jacihert.github.io/basic-calculator/)
 
 
